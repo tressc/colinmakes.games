@@ -32,7 +32,7 @@ export function TicTacToeBoard(props: BoardProps) {
     for (let j = 0; j < 3; j++) {
       const id = String(3 * i + j);
       cells.push(
-        <td key={id}>
+        <td key={id} className="lg:leading-[0px]">
           {G.cells[id] ? (
             <div className="border border-black lg:leading-10 text-center w-10 h-10">
               {G.cells[id]}
