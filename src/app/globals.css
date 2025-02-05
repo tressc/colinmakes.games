@@ -15,7 +15,17 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  /* color: var(--foreground);
+  background: var(--background); */
+  /* fixes unexpected browser defaults */
+  padding: 0;
+  margin: 0;
+  line-height: 0%;
+  /* width and height include padding and border
+  e.g. 2rem width with 0.5 rem padding makes the content width 1 rem */
+  box-sizing: border-box;
+  /* makes strokes (outlines) appear around elements and not partially on top of them */
+  paint-order: stroke;
+  /* // here to remember to add a font-choice */
   font-family: Arial, Helvetica, sans-serif;
 }

@@ -18,21 +18,13 @@ export function TicTacToeBoard(props: BoardProps) {
       );
   }
 
-  // const cellStyle = {
-  //   border: "1px solid #555",
-  //   width: "50px",
-  //   height: "50px",
-  //   lineHeight: "50px",
-  //   textAlign: "center",
-  // };
-
   let tbody = [];
   for (let i = 0; i < 3; i++) {
     let cells = [];
     for (let j = 0; j < 3; j++) {
       const id = String(3 * i + j);
       cells.push(
-        <td key={id} className="lg:leading-[0px]">
+        <td key={id}>
           {G.cells[id] ? (
             <div className="border border-black lg:leading-10 text-center w-10 h-10">
               {G.cells[id]}
@@ -51,7 +43,7 @@ export function TicTacToeBoard(props: BoardProps) {
 
   return (
     <div>
-      <table id="board">
+      <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
       </table>
       {winner}
