@@ -26,12 +26,12 @@ export function TicTacToeBoard(props: BoardProps) {
       cells.push(
         <td key={id}>
           {G.cells[id] ? (
-            <div className="border border-black lg:leading-10 text-center w-10 h-10">
+            <div className="border border-black lg:leading-10 md:leading-10 sm:leading-10 text-center w-10 h-10">
               {G.cells[id]}
             </div>
           ) : (
             <button
-              className="border border-black lg:leading-10 text-center w-10 h-10"
+              className="border border-black w-10 h-10"
               onClick={() => onClick(id)}
             />
           )}

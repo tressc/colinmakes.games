@@ -1,25 +1,51 @@
 "use client";
 
-import { Client } from "boardgame.io/react";
-import { SocketIO } from "boardgame.io/multiplayer";
-import { TicTacToe } from "../games/tictactoe";
-import { TicTacToeBoard } from "./board";
-import { useSearchParams } from "next/navigation";
+import { useContext, useState, useEffect } from "react";
+import { useSearchParams, redirect } from "next/navigation";
 
-const server = "http://localhost:3000/";
+import { UserContext } from "@/contexts/userContext";
+import { v4 as uuidv4 } from "uuid";
+import Identicon from "identicon.js";
 
-const TicTacToeClient = Client({
-  game: TicTacToe,
-  board: TicTacToeBoard,
-  multiplayer: SocketIO({ server: server }),
-});
 const App = () => {
+  const { user, setUser } = useContext(UserContext);
+
+  // currently getting called on every keystroke :(
   const searchParams = useSearchParams();
 
-  const playerID = searchParams.get("playerID") || "0";
+  useEffect(() => {
+    if (user) {
+      let path = "/lobby";
 
-  // @ts-ignore:
-  return <TicTacToeClient playerID={playerID} />;
+      return redirect(path);
+    }
+  }, [user]);
+
+  const [userName, setUsername] = useState("");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const svg = new Identicon(uuidv4(), {
+      size: 420,
+      format: "svg",
+    }).toString();
+    setUser({ name: userName, svg });
+    setUsername("");
+  };
+
+  return (
+    <>
+      <p>Please enter a username:</p>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <button type="submit">submit</button>
+      </form>
+    </>
+  );
 };
 
 export default App;
