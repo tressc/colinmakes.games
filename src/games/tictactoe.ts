@@ -6,6 +6,8 @@ export interface MyGameState {
 }
 
 export const TicTacToe: Game<MyGameState> = {
+  name: "tic-tac-toe",
+
   setup: () => ({ cells: Array(9).fill(null) }),
 
   turn: {

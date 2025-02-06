@@ -41,8 +41,11 @@ const App = () => {
           type="text"
           value={userName}
           onChange={(e) => setUsername(e.target.value)}
+          className="border border-black"
         />
-        <button type="submit">submit</button>
+        <button type="submit" className="border border-black">
+          submit
+        </button>
       </form>
     </>
   );

@@ -10,7 +10,11 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = Server({ games: [TicTacToe] });
+  const server = Server({
+    games: [TicTacToe],
+    // TODO: update whitelisted origins
+    origins: ["http://localhost:3000"],
+  });
   const router = new Router();
 
   router.all("(.*)", async (ctx) => {
