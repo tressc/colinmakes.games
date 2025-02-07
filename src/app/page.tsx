@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useState, useEffect } from "react";
-import { useSearchParams, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { UserContext } from "@/contexts/userContext";
 import { v4 as uuidv4 } from "uuid";
@@ -10,10 +10,8 @@ import Identicon from "identicon.js";
 const App = () => {
   const { user, setUser } = useContext(UserContext);
 
-  // currently getting called on every keystroke :(
-  const searchParams = useSearchParams();
-
   useEffect(() => {
+    // redirects to lobby if user exists
     if (user) {
       let path = "/lobby";
 
@@ -24,6 +22,7 @@ const App = () => {
   const [userName, setUsername] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    // set username & icon on the user context
     event.preventDefault();
     const svg = new Identicon(uuidv4(), {
       size: 420,
