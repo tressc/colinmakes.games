@@ -14,8 +14,7 @@ app.prepare().then(() => {
 
   const server = Server({
     games: [TicTacToe],
-    // TODO: update whitelisted origins
-    origins: ["http://localhost:3000"],
+    origins: [process.env.NEXT_PUBLIC_URL!],
   });
   const router = new Router();
 

@@ -14,7 +14,7 @@ const Lobby = () => {
 
   // TODO: update server address
   const lobbyClient = useMemo(
-    () => new LobbyClient({ server: "http://localhost:8000" }),
+    () => new LobbyClient({ server: process.env.NEXT_PUBLIC_API_URL }),
     []
   );
 
