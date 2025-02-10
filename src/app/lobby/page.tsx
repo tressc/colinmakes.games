@@ -12,9 +12,12 @@ const Lobby = () => {
 
   const [matches, setMatches] = useState<LobbyAPI.Match[] | null>(null);
 
-  // TODO: update server address
+  const dev = process.env.NODE_ENV !== "production";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const url = process.env.NEXT_PUBLIC_URL;
+
   const lobbyClient = useMemo(
-    () => new LobbyClient({ server: process.env.NEXT_PUBLIC_API_URL }),
+    () => new LobbyClient({ server: dev ? apiUrl : url + ":8000" }),
     []
   );
 
