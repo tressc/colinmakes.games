@@ -17,7 +17,8 @@ const Lobby = () => {
   const url = process.env.NEXT_PUBLIC_URL;
 
   const lobbyClient = useMemo(
-    () => new LobbyClient({ server: dev ? apiUrl : url + ":8000" }),
+    () =>
+      new LobbyClient({ server: dev ? apiUrl : url?.slice(0, -1) + ":8000" }),
     []
   );
 
