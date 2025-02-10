@@ -7,8 +7,8 @@ import type { BoardProps } from "boardgame.io/react";
 export function TicTacToeBoard(props: BoardProps) {
   const { G, ctx, moves } = props;
   const onClick = (id: string) => moves.clickCell(id);
-
   let winner;
+
   if (ctx.gameover) {
     winner =
       ctx.gameover.winner !== undefined ? (
@@ -18,9 +18,9 @@ export function TicTacToeBoard(props: BoardProps) {
       );
   }
 
-  let tbody = [];
+  const tbody = [];
   for (let i = 0; i < 3; i++) {
-    let cells = [];
+    const cells = [];
     for (let j = 0; j < 3; j++) {
       const id = String(3 * i + j);
       cells.push(

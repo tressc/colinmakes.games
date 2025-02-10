@@ -3,10 +3,10 @@ import { useEffect, useContext } from "react";
 import { UserContext } from "@/contexts/userContext";
 import { redirect } from "next/navigation";
 
-const withProtectedRoute = (Component: any) => {
+const withProtectedRoute = (Component: React.FC) => {
   // wrapper for protected routes
   // if no user, redirects to landing page
-  return (props: any) => {
+  const ProtectedComponent = (props: any) => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -17,6 +17,7 @@ const withProtectedRoute = (Component: any) => {
 
     return user ? <Component {...props} /> : null;
   };
+  return ProtectedComponent;
 };
 
 export default withProtectedRoute;

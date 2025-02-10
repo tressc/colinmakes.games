@@ -13,9 +13,7 @@ const App = () => {
   useEffect(() => {
     // redirects to lobby if user exists
     if (user) {
-      let path = "/lobby";
-
-      return redirect(path);
+      return redirect("/lobby");
     }
   }, [user]);
 

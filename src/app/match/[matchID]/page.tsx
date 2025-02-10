@@ -19,7 +19,7 @@ const Match = () => {
     multiplayer: SocketIO({ server: server }),
   });
 
-  // @ts-ignore:
+  // @ts-expect-error: valid component
   return <TicTacToeClient matchID={matchID} credentials={token} playerID={playerID}/>;
 };
 

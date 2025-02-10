@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import { LobbyAPI } from "boardgame.io";
 import withProtectedRoute from "@/utils/withProtectedRoute";
@@ -13,14 +13,16 @@ const Lobby = () => {
   const [matches, setMatches] = useState<LobbyAPI.Match[] | null>(null);
 
   // TODO: update server address
-  const lobbyClient = new LobbyClient({ server: "http://localhost:8000" });
-
-  const updateMatches = async () => {
-    const { matches } = await lobbyClient.listMatches("tic-tac-toe");
-    setMatches(matches);
-  };
+  const lobbyClient = useMemo(
+    () => new LobbyClient({ server: "http://localhost:8000" }),
+    []
+  );
 
   useEffect(() => {
+    const updateMatches = async () => {
+      const { matches } = await lobbyClient.listMatches("tic-tac-toe");
+      setMatches(matches);
+    };
     // initial page load
     updateMatches();
     // poll for list updated list of matches
@@ -31,7 +33,7 @@ const Lobby = () => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [lobbyClient]);
 
   const joinMatch = async (matchID: string) => {
     // join a pending match
