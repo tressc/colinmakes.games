@@ -31,6 +31,6 @@ app.prepare().then(() => {
   server.app.use(router.routes());
   server.run({
     port: appPort,
-    lobbyConfig: { apiPort },
+    // lobbyConfig: { apiPort },
   });
 });
