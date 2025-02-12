@@ -4,7 +4,7 @@ import { TicTacToe } from "@/games/tictactoe";
 import Router from "@koa/router";
 
 const appPort = parseInt(process.env.APP_PORT!, 10) || 3000;
-const apiPort = parseInt(process.env.API_PORT!, 10) || 8000;
+// const apiPort = parseInt(process.env.API_PORT!, 10) || 8000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
