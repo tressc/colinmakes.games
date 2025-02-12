@@ -12,15 +12,9 @@ const Lobby = () => {
 
   const [matches, setMatches] = useState<LobbyAPI.Match[] | null>(null);
 
-  const dev = process.env.NODE_ENV !== "production";
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const url = process.env.NEXT_PUBLIC_URL;
 
-  const lobbyClient = useMemo(
-    () =>
-      new LobbyClient({ server: dev ? apiUrl : url?.slice(0, -1) + ":8000" }),
-    []
-  );
+  const lobbyClient = useMemo(() => new LobbyClient({ server: apiUrl }), []);
 
   useEffect(() => {
     const updateMatches = async () => {
