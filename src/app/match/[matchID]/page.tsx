@@ -11,7 +11,7 @@ const Match = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const playerID = searchParams.get("playerID");
-  const server = process.env.NEXT_PUBLIC_URL!;
+  const server = process.env.NEXT_PUBLIC_API_URL!;
 
   const TicTacToeClient = Client({
     game: TicTacToe,

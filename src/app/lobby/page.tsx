@@ -12,10 +12,9 @@ const Lobby = () => {
 
   const [matches, setMatches] = useState<LobbyAPI.Match[] | null>(null);
 
-  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const appUrl = process.env.NEXT_PUBLIC_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const lobbyClient = useMemo(() => new LobbyClient({ server: appUrl }), []);
+  const lobbyClient = useMemo(() => new LobbyClient({ server: apiUrl }), []);
 
   useEffect(() => {
     const updateMatches = async () => {
