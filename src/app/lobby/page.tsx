@@ -14,7 +14,10 @@ const Lobby = () => {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const lobbyClient = useMemo(() => new LobbyClient({ server: apiUrl }), []);
+  const lobbyClient = useMemo(
+    () => new LobbyClient({ server: apiUrl }),
+    [apiUrl]
+  );
 
   useEffect(() => {
     const updateMatches = async () => {

@@ -50,10 +50,14 @@ const SettoBoard = (props: BoardProps) => {
   const { G, ctx, moves } = props;
 
   const onClick = (id: string) => moves.clickGridPos(id);
-  let winner;
+  let winner = null;
 
   if (ctx.gameover) {
-    winner = <div id="winner">Winner: {ctx.gameover.winner}</div>;
+    winner = (
+      <div className="text-white text-[30px]" id="winner">
+        Winner: {ctx.gameover.winner}
+      </div>
+    );
   }
 
   const renderCard = (card: string) => {
@@ -136,6 +140,7 @@ const SettoBoard = (props: BoardProps) => {
           <tbody>{tbody}</tbody>
         </table>
       </div>
+      {winner}
     </div>
   );
 };
