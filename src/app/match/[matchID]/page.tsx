@@ -2,8 +2,8 @@
 
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import { TicTacToe } from "@/games/tictactoe";
-import { TicTacToeBoard } from "@/boards/tictactoe";
+import { Setto } from "@/games/setto";
+import { SettoBoard } from "@/boards/setto";
 import { useParams, useSearchParams } from "next/navigation";
 
 const Match = () => {
@@ -13,14 +13,14 @@ const Match = () => {
   const playerID = searchParams.get("playerID");
   const server = process.env.NEXT_PUBLIC_API_URL!;
 
-  const TicTacToeClient = Client({
-    game: TicTacToe,
-    board: TicTacToeBoard,
+  const SettoClient = Client({
+    game: Setto,
+    board: SettoBoard,
     multiplayer: SocketIO({ server: server }),
   });
 
   // @ts-expect-error: valid component
-  return <TicTacToeClient matchID={matchID} credentials={token} playerID={playerID}/>;
+  return (<SettoClient matchID={matchID} credentials={token} playerID={playerID}/>);
 };
 
 export default Match;

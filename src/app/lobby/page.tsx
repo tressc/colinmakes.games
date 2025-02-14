@@ -18,7 +18,7 @@ const Lobby = () => {
 
   useEffect(() => {
     const updateMatches = async () => {
-      const { matches } = await lobbyClient.listMatches("tic-tac-toe");
+      const { matches } = await lobbyClient.listMatches("setto");
       setMatches(matches);
     };
     // initial page load
@@ -36,7 +36,7 @@ const Lobby = () => {
   const joinMatch = async (matchID: string) => {
     // join a pending match
     const { playerCredentials, playerID } = await lobbyClient.joinMatch(
-      "tic-tac-toe",
+      "setto",
       matchID,
       { playerName: user!.name }
     );
@@ -47,7 +47,7 @@ const Lobby = () => {
 
   const createAndJoinMatch = async () => {
     // create and join a new match
-    const { matchID } = await lobbyClient.createMatch("tic-tac-toe", {
+    const { matchID } = await lobbyClient.createMatch("setto", {
       numPlayers: 2,
     });
     joinMatch(matchID);
