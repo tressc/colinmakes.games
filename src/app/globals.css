@@ -7,6 +7,22 @@
   --foreground: #171717;
 }
 
+@font-face {
+  font-family: "Dicier";
+  src: url("/fonts/Dicier-Round-Light.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-feature-settings: "cv39" 1;
+}
+
+@font-face {
+  font-family: "Dicier-Dark";
+  src: url("/fonts/Dicier-Round-Dark.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-feature-settings: "cv39" 1;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     /* --background: #0a0a0a;
