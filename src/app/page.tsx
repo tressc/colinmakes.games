@@ -31,20 +31,23 @@ const App = () => {
   };
 
   return (
-    <>
-      <p>Please enter a username:</p>
-      <form onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <input
           type="text"
           value={userName}
           onChange={(e) => setUsername(e.target.value)}
-          className="border border-black"
+          className="border border-blac rounded-md p-1"
+          placeholder="Enter your username"
         />
-        <button type="submit" className="border border-black">
-          submit
+        <button
+          type="submit"
+          className="border border-black mt-4 p-1 rounded-md bg-white text-black"
+        >
+          enter
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

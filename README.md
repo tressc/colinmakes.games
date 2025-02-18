@@ -49,9 +49,9 @@ A [separate node server](https://github.com/tressc/asobi-server) hosts REST endp
 ## Features
 
 - [x] Real time multiplayer
+- [x] Mobile friendly
 - [ ] User authentication
 - [ ] Match history
-- [ ] Mobile friendly
 
 ## Technologies
 

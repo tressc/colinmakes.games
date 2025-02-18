@@ -10,6 +10,7 @@ export interface Mapping {
   fontColor: string;
   bgColor: string;
   bgImage: string;
+  border: string;
 }
 
 export interface SuitMap {
@@ -24,24 +25,28 @@ const suitMap: {
     fontColor: "text-[#006400]",
     bgColor: "bg-[#b0e57c]",
     bgImage: "bg-[url(/img/yagasuri.jpg)]",
+    border: "border-[#006400]",
   },
   b: {
     suitCode: "SUMMER",
     fontColor: "text-[#8b0000]",
     bgColor: "bg-[#ff9a9a]",
     bgImage: "bg-[url(/img/ichimatsu.jpg)]",
+    border: "border-[#8b0000]",
   },
   c: {
     suitCode: "ACORNS",
     fontColor: "text-[#b35900]",
     bgColor: "bg-[#ffd27f]",
     bgImage: "bg-[url(/img/asanoha.jpg)]",
+    border: "border-[#b35900]",
   },
   d: {
     suitCode: "WINTER",
     fontColor: "text-[#00008b]",
     bgColor: "bg-[#aec6cf]",
     bgImage: "bg-[url(/img/seigaiha.jpg)]",
+    border: "border-[#00008b]",
   },
 };
 
@@ -101,7 +106,7 @@ const SettoBoard = (props: BoardProps) => {
             ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
             ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
           }}
-          className={`bg-blend-soft-light leading-none text-[16px] md:text-[30px] flex flex-column content-between font-[Dicier-dark] p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
+          className={`bg-blend-soft-light leading-none text-[20px] md:text-[30px] flex flex-column content-between font-[Dicier-dark] p-2 md:p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md border border-solid border-[2px] ${mapping.border} ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
         >
           <div className="flex justify-end">{mapping.suitCode}</div>
           <div className="flex justify-start text-[20px] md:text-[40px]">
@@ -133,11 +138,11 @@ const SettoBoard = (props: BoardProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-svw h-svh bg-cover bg-[#301934] bg-[url(/img/paper.jpg)] bg-blend-multiply">
+    <div className="flex flex-col items-center justify-center w-svw h-svh">
       <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
       </table>
-      <div className="flex justify-center items-center mr-8 padding-[10px] border border-white border-dotted rounded-md border-[4px] box-border">
+      <div className="flex justify-center items-center mr-8 padding-[10px] size-24  md:size-32 p-3 border border-white border-dotted rounded-md border-[4px] box-border">
         <div>{renderCard(G.previousCard)}</div>
       </div>
       {winner}
