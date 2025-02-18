@@ -142,7 +142,7 @@ const SettoBoard = (props: BoardProps) => {
       <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
       </table>
-      <div className="flex justify-center items-center mr-8 padding-[10px] size-24  md:size-32 p-3 border border-white border-dotted rounded-md border-[4px] box-border">
+      <div className="flex justify-center items-center mr-8 padding-[10px] size-24 md:size-32 p-3 border border-white border-dotted rounded-md border-[4px] box-border">
         <div>{renderCard(G.previousCard)}</div>
       </div>
       {winner}
