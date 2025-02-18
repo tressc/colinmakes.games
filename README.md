@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# colinmakes.games
 
-## Getting Started
+[colinmakes.games](https://www.colinmakes.games) is a web based multiplayer card game platform. Users can create or join matches and play against other users in real time.
 
-First, run the development server:
+## Local Development
+
+Clone this repository, install dependencies and run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install && npm run dev
+```
+
+Create a `.env.development` file in the root directory and add the following:
+
+```txt
+NEXT_PUBLIC_URL=http://localhost:8000
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A separate server is used facilitate multiplayer. Access that repository [here](https://github.com/tressc/asobi-server) and follow the instructions in the accompanying readme to run locally.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+Currently, there are three routes, all found in the `src/app` directory.
 
-To learn more about Next.js, take a look at the following resources:
+- The landing page, where users sign in.
+- Lobby, where they can create or join matches.
+- Match, where games are played.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The latter two routes are protected by a function found in `src/utils/withProtectedRoute.jsx`, which will redirect users to the landing page if they are not signed in.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Because the current user's data is used in almost every component, it is stored in a React context, the provider for which wraps the entire application in `src/app/layout.tsx`.
 
-## Deploy on Vercel
+This project leverages the [boardgame.io](https://boardgame.io/) library to define gameplay and facilitate multiplayer functionality.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The `src/games` directory contains files which define game behavior, such as legal moves, endgame conditions, and state.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The `src/boards` directory determine how these games should be presented on the client.
+
+A [separate node server](https://github.com/tressc/asobi-server) hosts REST endpoints for lobby actions such as creating and joining matches, and [socket.io](https://socket.io/) connections for updating matches between multiple users in real time.
+
+## Features
+
+- [x] Real time multiplayer
+- [ ] User authentication
+- [ ] Match history
+- [ ] Mobile friendly
