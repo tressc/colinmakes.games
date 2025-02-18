@@ -18,7 +18,7 @@ NEXT_PUBLIC_URL=http://localhost:8000
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-A separate server is used facilitate multiplayer. Access that repository [here](https://github.com/tressc/asobi-server) and follow the instructions in the accompanying readme to run locally.
+A separate server is used facilitate multiplayer. Access that repository [here](https://github.com/tressc/colinmakes.games-server) and follow the instructions in the accompanying readme to run locally.
 
 ## Project Structure
 
@@ -46,3 +46,16 @@ A [separate node server](https://github.com/tressc/asobi-server) hosts REST endp
 - [ ] User authentication
 - [ ] Match history
 - [ ] Mobile friendly
+
+## Technologies
+
+- Next.js
+- Boardgame.io
+- Tailwind CSS
+- TypeScript
+
+## Credits
+
+- [Dicier Font](speakthesky.itch.io/typeface-dicier), Speak the Sky, [CC BY4.0 Licence](creativecommons.org/licenses/by/4.0/)
+- Images from [https://livinginjapan.net/](https://livinginjapan.net/)
+- Setto inspired by [Bruno Cathala](https://boardgamegeek.com/boardgame/125311/okiya)
