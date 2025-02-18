@@ -14,6 +14,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        dicier: ["var(--font-dicier)"],
+        dicierDark: ["var(--font-dicier-dark)"],
+      },
     },
   },
   plugins: [],

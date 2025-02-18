@@ -2,6 +2,18 @@
 
 import React, { useRef } from "react";
 import type { BoardProps } from "boardgame.io/react";
+import localFont from "next/font/local";
+
+const dicier = localFont({
+  src: "../../public/fonts/Dicier-Round-Light.woff2",
+  variable: "--font-dicier",
+  display: "swap",
+});
+const dicierDark = localFont({
+  src: "../../public/fonts/Dicier-Round-Dark.woff2",
+  variable: "--font-dicier-dark",
+  display: "swap",
+});
 
 export type Card = string | null;
 
@@ -73,7 +85,9 @@ const SettoBoard = (props: BoardProps) => {
     // if card replaced by player token
     if (card.length !== 2) {
       return (
-        <div className="text-center h-[50px] md:h-[100px] leading-[30px] md:leading-[70px] font-[Dicier]  text-[70px] md:text-[100px] text-white">
+        <div
+          className={`text-center h-[50px] md:h-[100px] leading-[30px] md:leading-[70px] ${dicier.className}  text-[70px] md:text-[100px] text-white`}
+        >
           {card === "0" ? "CIRCLE" : "CROSS"}
         </div>
       );
@@ -106,7 +120,7 @@ const SettoBoard = (props: BoardProps) => {
             ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
             ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
           }}
-          className={`bg-blend-soft-light leading-none text-[20px] md:text-[30px] flex flex-column content-between font-[Dicier-dark] p-2 md:p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md border border-solid border-[2px] ${mapping.border} ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
+          className={`bg-blend-soft-light leading-none text-[20px] md:text-[30px] flex flex-column content-between ${dicierDark.className} p-2 md:p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md border border-solid border-[2px] ${mapping.border} ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
         >
           <div className="flex justify-end">{mapping.suitCode}</div>
           <div className="flex justify-start text-[20px] md:text-[40px]">
