@@ -68,14 +68,14 @@ const SettoBoard = (props: BoardProps) => {
     // if card replaced by player token
     if (card.length !== 2) {
       return (
-        <div className="text-center h-[100px] leading-[70px] font-[Dicier] text-[100px] text-white">
+        <div className="text-center h-[50px] md:h-[100px] leading-[30px] md:leading-[70px] font-[Dicier]  text-[70px] md:text-[100px] text-white">
           {card === "0" ? "CIRCLE" : "CROSS"}
         </div>
       );
     }
     const mapping: Mapping = suitMap[card[0]];
     return (
-      <div className="[perspective:800px]">
+      <div className="perspective-midrange">
         <div
           onMouseLeave={() => (boundingRef.current = null)}
           onMouseEnter={(ev) => {
@@ -101,10 +101,12 @@ const SettoBoard = (props: BoardProps) => {
             ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
             ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
           }}
-          className={`bg-blend-soft-light leading-none text-[30px] flex flex-column content-between font-[Dicier-dark] p-3 m-[8px] size-[100px] group relative grid rounded-md ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
+          className={`bg-blend-soft-light leading-none text-[16px] md:text-[30px] flex flex-column content-between font-[Dicier-dark] p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
         >
           <div className="flex justify-end">{mapping.suitCode}</div>
-          <div className="flex justify-start text-[40px]">{card[1]}</div>
+          <div className="flex justify-start text-[20px] md:text-[40px]">
+            {card[1]}
+          </div>
         </div>
       </div>
     );
@@ -131,14 +133,12 @@ const SettoBoard = (props: BoardProps) => {
   }
 
   return (
-    <div className="flex flex-column items-center justify-center w-svw h-svh bg-cover bg-[#301934] bg-[url(/img/paper.jpg)] bg-blend-multiply">
-      <div className="flex">
-        <div className="h-full flex justify-start items-start w-[124px] h-[124px] mr-8 padding-[10px] border border-white rounded-md border-[4px] box-border">
-          <div>{renderCard(G.previousCard)}</div>
-        </div>
-        <table id="board" className="mb-8">
-          <tbody>{tbody}</tbody>
-        </table>
+    <div className="flex flex-col items-center justify-center w-svw h-svh bg-cover bg-[#301934] bg-[url(/img/paper.jpg)] bg-blend-multiply">
+      <table id="board" className="mb-8">
+        <tbody>{tbody}</tbody>
+      </table>
+      <div className="flex justify-center items-center mr-8 padding-[10px] border border-white border-dotted rounded-md border-[4px] box-border">
+        <div>{renderCard(G.previousCard)}</div>
       </div>
       {winner}
     </div>
