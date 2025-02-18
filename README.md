@@ -4,16 +4,22 @@
 
 ## Local Development
 
-Clone this repository, install dependencies and run the development server:
+Clone this repository, install dependencies:
 
 ```bash
-npm install && npm run dev
+npm install
 ```
 
 Create a `.env.development` file in the root directory and add the following:
 
 ```txt
 NEXT_PUBLIC_URL=http://localhost:8000
+```
+
+Run the development server:
+
+```bash
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -58,4 +64,4 @@ A [separate node server](https://github.com/tressc/asobi-server) hosts REST endp
 
 - [Dicier Font](speakthesky.itch.io/typeface-dicier), Speak the Sky, [CC BY4.0 Licence](creativecommons.org/licenses/by/4.0/)
 - Images from [https://livinginjapan.net/](https://livinginjapan.net/)
-- Setto inspired by [Bruno Cathala](https://boardgamegeek.com/boardgame/125311/okiya)
+- Setto inspired by [Okiya](https://boardgamegeek.com/boardgame/125311/okiya)
