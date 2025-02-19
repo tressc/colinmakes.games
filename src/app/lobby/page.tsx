@@ -16,7 +16,7 @@ const Lobby = () => {
 
   const lobbyClient = useMemo(
     () => new LobbyClient({ server: apiUrl }),
-    [apiUrl]
+    [apiUrl],
   );
 
   useEffect(() => {
@@ -41,10 +41,10 @@ const Lobby = () => {
     const { playerCredentials, playerID } = await lobbyClient.joinMatch(
       "setto",
       matchID,
-      { playerName: user!.name }
+      { playerName: user!.name },
     );
     return redirect(
-      `match/${matchID}?token=${playerCredentials}&playerID=${playerID}`
+      `match/${matchID}?token=${playerCredentials}&playerID=${playerID}`,
     );
   };
 

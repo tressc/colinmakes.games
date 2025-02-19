@@ -31,18 +31,18 @@ const App = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex h-screen items-center justify-center">
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <input
           type="text"
           value={userName}
           onChange={(e) => setUsername(e.target.value)}
-          className="border border-blac rounded-md p-1"
+          className="border-blac rounded-md border p-1"
           placeholder="Enter your username"
         />
         <button
           type="submit"
-          className="border border-black mt-4 p-1 rounded-md bg-white text-black"
+          className="mt-4 rounded-md border border-black bg-white p-1 text-black"
         >
           enter
         </button>

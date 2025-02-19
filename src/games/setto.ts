@@ -5,11 +5,16 @@ export interface SetMemberships {
   [key: number]: number[];
 }
 
+export interface Connections {
+  [key: string]: number[];
+}
+
 export interface MyGameState {
   previousCard: string | null; // the previous card that was played
   sets: number[]; // one set is required for victory
   grid: string[]; // 2D array of cards
   setMemberships: SetMemberships; // maps grid position to set membership
+  connections: Connections;
 }
 
 export const Setto: Game<MyGameState> = {
@@ -19,10 +24,12 @@ export const Setto: Game<MyGameState> = {
     const cards = ["a", "b", "c", "d"].flatMap((suit) => {
       return Array.from({ length: 4 }, (_, i) => `${suit}${i + 1}`);
     }); // a1...d4
+    const shuffled = random.Shuffle(cards);
+    const connections = createConnections(shuffled);
     return {
       previousCard: null,
       sets: Array(16).fill(0),
-      grid: random.Shuffle(cards), // 4x4 grid
+      grid: shuffled, // 4x4 grid
       setMemberships: {
         0: [0, 5, 9, 10],
         1: [1, 5, 10, 11],
@@ -41,6 +48,7 @@ export const Setto: Game<MyGameState> = {
         14: [2, 8, 17, 18],
         15: [3, 8, 9, 18],
       },
+      connections,
     };
   },
 
@@ -67,12 +75,28 @@ export const Setto: Game<MyGameState> = {
   },
 
   endIf: ({ G, ctx }) => {
-    console.log(isVictory(G.sets));
     if (isVictory(G.sets)) {
       return { winner: ctx.currentPlayer };
     }
+    if (isDefeat(G)) {
+      return { winner: ctx.currentPlayer === "0" ? "1" : "0" };
+    }
   },
 };
+
+function createConnections(cards: string[]): Connections {
+  const connections: Connections = {};
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
+    const suit = card[0];
+    const value = card[1];
+    if (!connections[suit]) connections[suit] = [];
+    if (!connections[value]) connections[value] = [];
+    connections[suit].push(i);
+    connections[value].push(i);
+  }
+  return connections;
+}
 
 function isValidMove(G: MyGameState, id: number): boolean {
   if (G.previousCard === null) {
@@ -95,4 +119,16 @@ function isValidMove(G: MyGameState, id: number): boolean {
 function isVictory(sets: number[]): boolean {
   // if any set is 4 or -4, then the current player has won
   return sets.some((i) => Math.abs(sets[i]) === 4);
+}
+
+function isDefeat(G: MyGameState): boolean {
+  // if there are no legal moves, then the current player has lost
+  let legalMoves = false;
+  for (let i = 0; i < G.grid.length; i++) {
+    if (isValidMove(G, i)) {
+      legalMoves = true;
+      break;
+    }
+  }
+  return legalMoves;
 }

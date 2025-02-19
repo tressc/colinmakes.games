@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import type { BoardProps } from "boardgame.io/react";
 import localFont from "next/font/local";
 
@@ -63,21 +63,42 @@ const suitMap: {
 };
 
 const SettoBoard = (props: BoardProps) => {
-  const boundingRef = useRef<DOMRect | null>(null);
+  // const boundingRef = useRef<DOMRect | null>(null);
   const { G, ctx, moves } = props;
+
+  console.log(ctx);
 
   const onClick = (id: string) => moves.clickGridPos(id);
   let winner = null;
 
   if (ctx.gameover) {
     winner = (
-      <div className="text-white text-[30px]" id="winner">
+      <div className="text-[30px] text-white" id="winner">
         Winner: {ctx.gameover.winner}
       </div>
     );
   }
 
-  const renderCard = (card: string) => {
+  const isValidMove = (id: string) => {
+    // if previous card is null, all cards are legal
+    if (G.previousCard === null) return true;
+    const suit = G.previousCard[0];
+    const value = G.previousCard[1];
+    // if the previous card matches this card's suit or value, it is legal
+    if (
+      G.connections[suit].includes(parseInt(id)) ||
+      G.connections[value].includes(parseInt(id))
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const renderCard = (
+    card: string,
+    isLegal: boolean,
+    isPreviousCard = false,
+  ) => {
     // only for previous card at game start
     if (!card) {
       return null;
@@ -86,46 +107,29 @@ const SettoBoard = (props: BoardProps) => {
     if (card.length !== 2) {
       return (
         <div
-          className={`text-center h-[50px] md:h-[100px] leading-[30px] md:leading-[70px] ${dicier.className}  text-[70px] md:text-[100px] text-white`}
+          className={`h-[50px] text-center leading-[30px] md:h-[100px] md:leading-[70px] ${card === "0" ? dicier.className : dicierDark.className} m-[8px] text-[70px] text-white md:text-[100px]`}
         >
           {card === "0" ? "CIRCLE" : "CROSS"}
         </div>
       );
     }
     const mapping: Mapping = suitMap[card[0]];
-    return (
-      <div className="perspective-midrange">
-        <div
-          onMouseLeave={() => (boundingRef.current = null)}
-          onMouseEnter={(ev) => {
-            boundingRef.current = ev.currentTarget.getBoundingClientRect();
-          }}
-          onMouseMove={(ev) => {
-            if (!boundingRef.current) return;
-            const x = ev.clientX - boundingRef.current.left;
-            const y = ev.clientY - boundingRef.current.top;
-            const xPercentage = x / boundingRef.current.width;
-            const yPercentage = y / boundingRef.current.height;
-            const xRotation = (xPercentage - 0.5) * 20;
-            const yRotation = (0.5 - yPercentage) * 20;
+    const legal = "transition-transform ease-out hover:scale-110";
+    const illegal = "opacity-50";
+    let conditionalStyles = "";
+    if (isPreviousCard) {
+      conditionalStyles = "";
+    } else {
+      conditionalStyles = isLegal ? legal : illegal;
+    }
 
-            ev.currentTarget.style.setProperty(
-              "--x-rotation",
-              `${yRotation}deg`
-            );
-            ev.currentTarget.style.setProperty(
-              "--y-rotation",
-              `${xRotation}deg`
-            );
-            ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
-            ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
-          }}
-          className={`bg-blend-soft-light leading-none text-[20px] md:text-[30px] flex flex-column content-between ${dicierDark.className} p-2 md:p-3 m-[8px] size-16 md:size-24 group relative grid rounded-md border border-solid border-[2px] ${mapping.border} ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor} transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.1)]`}
-        >
-          <div className="flex justify-end">{mapping.suitCode}</div>
-          <div className="flex justify-start text-[20px] md:text-[40px]">
-            {card[1]}
-          </div>
+    return (
+      <div
+        className={`${conditionalStyles} flex-column flex content-between text-[20px] leading-none bg-blend-soft-light md:text-[30px] ${dicierDark.className} m-[8px] grid size-16 rounded-md border border-[2px] border-solid p-2 md:size-24 md:p-3 ${mapping.border} ${mapping.bgImage} ${mapping.bgColor} ${mapping.fontColor}`}
+      >
+        <div className="flex justify-end">{mapping.suitCode}</div>
+        <div className="flex justify-start text-[20px] md:text-[40px]">
+          {card[1]}
         </div>
       </div>
     );
@@ -136,28 +140,29 @@ const SettoBoard = (props: BoardProps) => {
     const grid = [];
     for (let j = 0; j < 4; j++) {
       const id = String(4 * i + j);
+      const isLegal = isValidMove(id);
       grid.push(
         <td key={id}>
           {G.grid[id].length === 1 ? (
-            renderCard(G.grid[id])
+            renderCard(G.grid[id], isLegal)
           ) : (
-            <button onClick={() => onClick(id)}>
-              {renderCard(G.grid[id])}
+            <button onClick={() => onClick(id)} disabled={!isLegal}>
+              {renderCard(G.grid[id], isLegal)}
             </button>
           )}
-        </td>
+        </td>,
       );
     }
     tbody.push(<tr key={i}>{grid}</tr>);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-svw h-svh">
+    <div className="flex h-svh w-svw flex-col items-center justify-center">
       <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
       </table>
-      <div className="flex justify-center items-center mr-8 padding-[10px] size-24 md:size-32 p-3 border border-white border-dotted rounded-md border-[4px] box-border">
-        <div>{renderCard(G.previousCard)}</div>
+      <div className="padding-[10px] mr-8 box-border flex size-24 items-center justify-center rounded-md border border-[4px] border-dotted border-white p-3 md:size-32">
+        <div>{renderCard(G.previousCard, true, true)}</div>
       </div>
       {winner}
     </div>
