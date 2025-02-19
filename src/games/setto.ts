@@ -130,5 +130,5 @@ function isDefeat(G: MyGameState): boolean {
       break;
     }
   }
-  return legalMoves;
+  return !legalMoves;
 }
