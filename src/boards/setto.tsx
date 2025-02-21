@@ -66,8 +66,6 @@ const SettoBoard = (props: BoardProps) => {
   // const boundingRef = useRef<DOMRect | null>(null);
   const { G, ctx, moves } = props;
 
-  console.log(ctx);
-
   const onClick = (id: string) => moves.clickGridPos(id);
   let winner = null;
 

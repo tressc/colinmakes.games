@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useState, useEffect } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 import { UserContext } from "@/contexts/userContext";
 import { v4 as uuidv4 } from "uuid";
@@ -9,13 +9,26 @@ import Identicon from "identicon.js";
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // redirects to lobby if user exists
+    // if user exists, redirect to redirectPath or default to /lobby
     if (user) {
-      return redirect("/lobby");
+      let redirectPath = "/lobby";
+      if (searchParams.has("forwardPath")) {
+        redirectPath = searchParams.get("forwardPath") || "/lobby";
+      }
+      let isNotFirstParam = false;
+      for (const key of searchParams.keys()) {
+        if (key !== "forwardPath") {
+          redirectPath += isNotFirstParam ? "&" : "?";
+          redirectPath += `${key}=${searchParams.get(key)}`;
+          isNotFirstParam = true;
+        }
+      }
+      return redirect(redirectPath);
     }
-  }, [user]);
+  }, [user, searchParams]);
 
   const [userName, setUsername] = useState("");
 

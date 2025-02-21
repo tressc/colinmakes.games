@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "@/contexts/userContext";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-cover bg-[#292929] bg-[url(/img/paper.jpg)] bg-blend-multiply h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} h-screen bg-[#292929] bg-[url(/img/paper.jpg)] bg-cover antialiased bg-blend-multiply`}
       >
-        <UserProvider>{children}</UserProvider>
+        <Suspense fallback={null}>
+          <UserProvider>{children}</UserProvider>
+        </Suspense>
       </body>
     </html>
   );
