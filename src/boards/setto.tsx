@@ -85,9 +85,9 @@ const SettoBoard = (props: BoardProps) => {
 
   if (ctx.gameover) {
     winner = (
-      <div className="text-[30px] text-white" id="winner">
+      <div className="ml-1 p-1 text-[30px] text-white" id="winner">
         {ctx.gameover.winner === playerID
-          ? userName
+          ? userName + " wins!"
           : searchParams.get("opponentName") + " wins!"}
       </div>
     );
@@ -177,7 +177,7 @@ const SettoBoard = (props: BoardProps) => {
   );
 
   return (
-    <div className="flex h-svh w-svw flex-col items-center justify-center">
+    <div className="mt-3 flex h-svh w-svw flex-col items-center justify-center">
       <div className="flex w-svw flex-col items-start">
         <div className="flex flex-row items-center">
           <div
@@ -222,6 +222,7 @@ const SettoBoard = (props: BoardProps) => {
           </div>
           {ctx.currentPlayer !== playerID ? currentTurnArrow : null}
         </div>
+        {winner}
       </div>
       <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
@@ -229,7 +230,6 @@ const SettoBoard = (props: BoardProps) => {
       <div className="padding-[10px] mr-8 box-border flex size-24 items-center justify-center rounded-md border border-[4px] border-dotted border-white p-3 md:size-32">
         <div>{renderCard(G.previousCard, true, true)}</div>
       </div>
-      {winner}
     </div>
   );
 };

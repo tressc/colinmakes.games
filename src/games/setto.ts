@@ -118,7 +118,7 @@ function isValidMove(G: MyGameState, id: number): boolean {
 
 function isVictory(sets: number[]): boolean {
   // if any set is 4 or -4, then the current player has won
-  return sets.some((i) => Math.abs(sets[i]) === 4);
+  return sets.some((el) => Math.abs(el) === 4);
 }
 
 function isDefeat(G: MyGameState): boolean {
