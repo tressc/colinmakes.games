@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import type { BoardProps } from "boardgame.io/react";
 import localFont from "next/font/local";
+import { useSearchParams } from "next/navigation";
+import { UserContext } from "@/contexts/userContext";
 
 const dicier = localFont({
   src: "../../public/fonts/Dicier-Round-Light.woff2",
@@ -63,8 +65,20 @@ const suitMap: {
 };
 
 const SettoBoard = (props: BoardProps) => {
-  // const boundingRef = useRef<DOMRect | null>(null);
   const { G, ctx, moves } = props;
+  const searchParams = useSearchParams();
+  const playerID = searchParams.get("playerID");
+  const { user } = useContext(UserContext);
+
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userIcon, setUserIcon] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    setUserName(user!.name);
+    setUserIcon(user!.svg);
+  }, [user]);
 
   const onClick = (id: string) => moves.clickGridPos(id);
   let winner = null;
@@ -72,7 +86,9 @@ const SettoBoard = (props: BoardProps) => {
   if (ctx.gameover) {
     winner = (
       <div className="text-[30px] text-white" id="winner">
-        Winner: {ctx.gameover.winner}
+        {ctx.gameover.winner === playerID
+          ? userName
+          : searchParams.get("opponentName") + " wins!"}
       </div>
     );
   }
@@ -154,8 +170,59 @@ const SettoBoard = (props: BoardProps) => {
     tbody.push(<tr key={i}>{grid}</tr>);
   }
 
+  const currentTurnArrow = (
+    <div className="ml-1 -scale-x-75 scale-y-150 text-xl text-white">
+      &#10148;
+    </div>
+  );
+
   return (
     <div className="flex h-svh w-svw flex-col items-center justify-center">
+      <div className="flex w-svw flex-col items-start">
+        <div className="flex flex-row items-center">
+          <div
+            className={`m-1 flex w-48 items-center justify-start rounded-md border border-white bg-white bg-opacity-20 p-1`}
+          >
+            <img
+              className="mr-2 size-12"
+              src={"data:image/svg+xml;base64," + userIcon}
+            />
+            <div className="flex flex-col">
+              <div className="text-white">{userName}</div>
+              <div
+                className={`text-white ${playerID === "0" ? dicier.className : dicierDark.className}`}
+              >
+                {playerID === "0" ? "CIRCLE" : "CROSS"}
+              </div>
+            </div>
+          </div>
+          {ctx.currentPlayer === playerID ? currentTurnArrow : null}
+        </div>
+        <div className="flex flex-row items-center">
+          <div
+            className={`m-1 flex w-48 items-center justify-start rounded-md border border-white bg-white bg-opacity-20 p-1`}
+          >
+            <img
+              className="mr-2 size-12"
+              src={
+                "data:image/svg+xml;base64," +
+                searchParams.get("opponentIcon")?.replaceAll(" ", "+")
+              }
+            />
+            <div className="flex flex-col">
+              <div className="text-white">
+                {searchParams.get("opponentName")}
+              </div>
+              <div
+                className={`text-white ${playerID === "1" ? dicier.className : dicierDark.className}`}
+              >
+                {playerID === "1" ? "CIRCLE" : "CROSS"}
+              </div>
+            </div>
+          </div>
+          {ctx.currentPlayer !== playerID ? currentTurnArrow : null}
+        </div>
+      </div>
       <table id="board" className="mb-8">
         <tbody>{tbody}</tbody>
       </table>

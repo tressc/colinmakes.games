@@ -30,10 +30,11 @@ const Lobby = () => {
     const match = await lobbyClient.getMatch("setto", matchID!);
     if (match.players[1].name) {
       const opponentName = match.players.find(
-        (player) => player.id === 1,
+        (player) => player.id !== parseInt(playerID!),
       )!.name;
-      const opponentIcon = match.players.find((player) => player.id === 1)!.data
-        .icon;
+      const opponentIcon = match.players.find(
+        (player) => player.id !== parseInt(playerID!),
+      )!.data.icon;
       return redirect(
         `/match/${matchID}?token=${playerCredentials}&playerID=${playerID}&opponentName=${opponentName}&opponentIcon=${opponentIcon}`,
       );
@@ -126,7 +127,7 @@ const Lobby = () => {
         <button
           onClick={createMatch}
           className="rounded-md border border-black bg-white p-2 text-black"
-          disabled={isMatchCreated}
+          disabled={matchID !== null}
         >
           create game
         </button>
