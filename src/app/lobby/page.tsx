@@ -16,6 +16,7 @@ const Lobby = () => {
   const [playerID, setPlayerID] = useState<string | null>(null);
   const [matchID, setMatchID] = useState<string | null>(null);
   const [isMatchCreated, setIsMatchCreated] = useState<boolean>(false);
+  const [inputText, setInputText] = useState<string | null>(null);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const lobbyClient = useMemo(
@@ -43,6 +44,7 @@ const Lobby = () => {
 
   const joinMatch = useCallback(async () => {
     // join a pending match
+    // TODO: handle error if matchID is invalid, surface to user
     const { playerCredentials, playerID } = await lobbyClient.joinMatch(
       "setto",
       matchID!,
@@ -101,36 +103,62 @@ const Lobby = () => {
     navigator.clipboard.writeText(inviteLink);
   };
 
-  return (
-    <div className="flex h-screen items-center justify-center">
-      {isMatchCreated ? (
-        <div className="flex flex-col items-center">
-          <div className="text-white">
-            Send your friend the invite link below
+  const renderCreated = () => {
+    return (
+      <div className="flex flex-col items-center">
+        <div>Match created! Your join code is:</div>
+        <div className="m-2 text-3xl">{matchID}</div>
+        <div>Send your friend the invite link below</div>
+        <div className="align-center mt-4 flex items-center">
+          <div className="mr-1 rounded-md border border-white bg-white bg-opacity-20 p-2 text-white">
+            {inviteLink}
           </div>
-          <div className="align-center mt-4 flex items-center">
-            <div className="mr-1 rounded-md border border-white bg-white bg-opacity-20 p-2 text-white">
-              {inviteLink}
-            </div>
-            <button
-              onClick={copyInvite}
+          <button
+            onClick={copyInvite}
+            className="rounded-md border border-black bg-white p-2 text-black"
+          >
+            copy
+          </button>
+        </div>
+        <div className="mt-4">
+          Waiting for opponent. Your match will begin once they join!
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex h-screen items-center justify-center text-white">
+      {isMatchCreated ? (
+        renderCreated()
+      ) : (
+        <div className="flex flex-col items-center">
+          <div className="mb-2 text-4xl">join existing game</div>
+          <div className="flex items-center">
+            <input
               className="rounded-md border border-black bg-white p-2 text-black"
+              placeholder="join code"
+              value={inputText || ""}
+              onChange={(e) => setInputText(e.target.value)}
+            />
+            <button
+              onClick={() => setMatchID(inputText)}
+              className="rounded-md border border-black bg-white p-2 text-black hover:text-gray-500"
             >
-              copy
+              join
             </button>
           </div>
-          <div className="mt-4 text-white">
-            Waiting for opponent. Your match will begin once they join!
-          </div>
+          <div className="m-6 text-xl">or</div>
+
+          <div className="mb-2 text-4xl">create new game</div>
+          <button
+            onClick={createMatch}
+            className="rounded-md border border-black bg-white p-2 text-black hover:text-gray-500"
+            disabled={matchID !== null}
+          >
+            create
+          </button>
         </div>
-      ) : (
-        <button
-          onClick={createMatch}
-          className="rounded-md border border-black bg-white p-2 text-black"
-          disabled={matchID !== null}
-        >
-          create game
-        </button>
       )}
     </div>
   );

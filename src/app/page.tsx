@@ -55,7 +55,7 @@ const App = () => {
         />
         <button
           type="submit"
-          className="mt-4 rounded-md border border-black bg-white p-1 text-black"
+          className="mt-4 rounded-md border border-black bg-white p-1 text-black hover:text-gray-500"
         >
           enter
         </button>
