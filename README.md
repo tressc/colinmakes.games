@@ -1,6 +1,16 @@
 # colinmakes.games
 
-[colinmakes.games](https://www.colinmakes.games) is a web based multiplayer card game platform. Users can create or join matches and play against other users in real time.
+[colinmakes.games](https://www.colinmakes.games) is a web based multiplayer card & board game platform. Users can create or join matches and play against other users in real time. My intention is for this application to act as a platform for play-testing and showcasing my original game designs. Currently there is one game, **Setto**, available to play, the rules of which can be found below.
+
+## How to play Setto
+
+Players alternate turns replacing a card in the grid with their mark. On their turn, players must choose a card which matches either the suit or the value of the card last chosen by their opponent (on the first turn, any card can be chosen).
+
+The first player to place four of their marks in a line (horizontally, vertically, or diagonally) or in a square, is the winner. Alternatively, a player loses if there are no legal moves on their turn.
+
+|   win via diagonal line   |  loss via no legal moves   |
+| :-----------------------: | :------------------------: |
+| ![](./public/img/win.png) | ![](./public/img/loss.png) |
 
 ## Local Development
 
@@ -52,13 +62,19 @@ A [separate node server](https://github.com/tressc/asobi-server) hosts REST endp
 - [x] Mobile friendly
 - [ ] User authentication
 - [ ] Match history
+- [ ] Animations
+- [ ] More games
 
 ## Technologies
 
-- Next.js
-- Boardgame.io
-- Tailwind CSS
-- TypeScript
+- [Next.js](https://nextjs.org/)
+  - Next.js has emerged as a popular framework and I wanted to use this project as an opportunity to learn it.
+- [boardgame.io](https://boardgame.io/)
+  - boardgame.io provides an API for matchmaking, socket connections, and managing game state. Using it allowed for more rapid prototyping and development.
+- [Tailwind CSS](https://tailwindcss.com/)
+  - Like Next.js, I used this project as a chance to learn Tailwind, a library that has seen widespread adoption in recent years.
+- [TypeScript](https://www.typescriptlang.org/)
+  - TypeScript has become an industry standard and my preferred way to write web applications.
 
 ## Credits
 
