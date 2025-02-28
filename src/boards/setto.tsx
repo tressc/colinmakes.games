@@ -5,6 +5,7 @@ import type { BoardProps } from "boardgame.io/react";
 import localFont from "next/font/local";
 import { useSearchParams } from "next/navigation";
 import { UserContext } from "@/contexts/userContext";
+import Image from "next/image";
 
 const dicier = localFont({
   src: "../../public/fonts/Dicier-Round-Light.woff2",
@@ -81,17 +82,18 @@ const SettoBoard = (props: BoardProps) => {
   }, [user]);
 
   const onClick = (id: string) => moves.clickGridPos(id);
-  let winner = null;
 
-  if (ctx.gameover) {
-    winner = (
+  const renderWinner = () => {
+    if (!ctx.gameover) return null;
+
+    return (
       <div className="ml-1 p-1 text-[30px] text-white" id="winner">
         {ctx.gameover.winner === playerID
           ? userName + " wins!"
           : searchParams.get("opponentName") + " wins!"}
       </div>
     );
-  }
+  };
 
   const isValidMove = (id: string) => {
     // if previous card is null, all cards are legal
@@ -131,9 +133,7 @@ const SettoBoard = (props: BoardProps) => {
     const legal = "transition-transform ease-out hover:scale-110";
     const illegal = "opacity-50";
     let conditionalStyles = "";
-    if (isPreviousCard) {
-      conditionalStyles = "";
-    } else {
+    if (!isPreviousCard) {
       conditionalStyles = isLegal ? legal : illegal;
     }
 
@@ -149,26 +149,29 @@ const SettoBoard = (props: BoardProps) => {
     );
   };
 
-  const tbody = [];
-  for (let i = 0; i < 4; i++) {
+  const renderGrid = () => {
     const grid = [];
-    for (let j = 0; j < 4; j++) {
-      const id = String(4 * i + j);
-      const isLegal = isValidMove(id);
-      grid.push(
-        <td key={id}>
-          {G.grid[id].length === 1 ? (
-            renderCard(G.grid[id], isLegal)
-          ) : (
-            <button onClick={() => onClick(id)} disabled={!isLegal}>
-              {renderCard(G.grid[id], isLegal)}
-            </button>
-          )}
-        </td>,
-      );
+    for (let i = 0; i < 4; i++) {
+      const row = [];
+      for (let j = 0; j < 4; j++) {
+        const id = String(4 * i + j);
+        const isLegal = isValidMove(id);
+        row.push(
+          <td key={id}>
+            {G.grid[id].length === 1 ? (
+              renderCard(G.grid[id], isLegal)
+            ) : (
+              <button onClick={() => onClick(id)} disabled={!isLegal}>
+                {renderCard(G.grid[id], isLegal)}
+              </button>
+            )}
+          </td>,
+        );
+      }
+      grid.push(<tr key={i}>{row}</tr>);
     }
-    tbody.push(<tr key={i}>{grid}</tr>);
-  }
+    return grid;
+  };
 
   const currentTurnArrow = (
     <div className="ml-1 -scale-x-75 scale-y-150 text-xl text-white">
@@ -176,56 +179,51 @@ const SettoBoard = (props: BoardProps) => {
     </div>
   );
 
+  const renderPlayerCard = (
+    playerID: string,
+    playerName: string,
+    playerIcon?: string,
+  ) => {
+    if (!playerIcon) {
+      return null;
+    }
+    return (
+      <div className="flex flex-row items-center">
+        <div
+          className={`m-1 flex w-48 items-center justify-start rounded-md border border-white bg-white bg-opacity-20 p-1`}
+        >
+          <Image
+            alt="player icon"
+            className="mr-2 size-12"
+            src={"data:image/svg+xml;base64," + playerIcon}
+          />
+          <div className="flex flex-col">
+            <div className="text-white">{playerName}</div>
+            <div
+              className={`text-white ${playerID === "0" ? dicier.className : dicierDark.className}`}
+            >
+              {playerID === "0" ? "CIRCLE" : "CROSS"}
+            </div>
+          </div>
+        </div>
+        {ctx.currentPlayer === playerID ? currentTurnArrow : null}
+        {ctx.gameover.winner === playerID ? renderWinner() : null}
+      </div>
+    );
+  };
+
   return (
     <div className="mt-3 flex h-svh w-svw flex-col items-center justify-center">
-      <div className="flex w-svw flex-col items-start">
-        <div className="flex flex-row items-center">
-          <div
-            className={`m-1 flex w-48 items-center justify-start rounded-md border border-white bg-white bg-opacity-20 p-1`}
-          >
-            <img
-              className="mr-2 size-12"
-              src={"data:image/svg+xml;base64," + userIcon}
-            />
-            <div className="flex flex-col">
-              <div className="text-white">{userName}</div>
-              <div
-                className={`text-white ${playerID === "0" ? dicier.className : dicierDark.className}`}
-              >
-                {playerID === "0" ? "CIRCLE" : "CROSS"}
-              </div>
-            </div>
-          </div>
-          {ctx.currentPlayer === playerID ? currentTurnArrow : null}
-        </div>
-        <div className="flex flex-row items-center">
-          <div
-            className={`m-1 flex w-48 items-center justify-start rounded-md border border-white bg-white bg-opacity-20 p-1`}
-          >
-            <img
-              className="mr-2 size-12"
-              src={
-                "data:image/svg+xml;base64," +
-                searchParams.get("opponentIcon")?.replaceAll(" ", "+")
-              }
-            />
-            <div className="flex flex-col">
-              <div className="text-white">
-                {searchParams.get("opponentName")}
-              </div>
-              <div
-                className={`text-white ${playerID === "1" ? dicier.className : dicierDark.className}`}
-              >
-                {playerID === "1" ? "CIRCLE" : "CROSS"}
-              </div>
-            </div>
-          </div>
-          {ctx.currentPlayer !== playerID ? currentTurnArrow : null}
-        </div>
-        {winner}
+      <div className="flex w-full flex-col items-start">
+        {renderPlayerCard(playerID!, userName!, userIcon!)}
+        {renderPlayerCard(
+          playerID === "0" ? "1" : "0",
+          searchParams.get("opponentName")!,
+          searchParams.get("opponentIcon")?.replaceAll(" ", "+"),
+        )}
       </div>
       <table id="board" className="mb-8">
-        <tbody>{tbody}</tbody>
+        <tbody>{renderGrid()}</tbody>
       </table>
       <div className="padding-[10px] mr-8 box-border flex size-24 items-center justify-center rounded-md border border-[4px] border-dotted border-white p-3 md:size-32">
         <div>{renderCard(G.previousCard, true, true)}</div>
