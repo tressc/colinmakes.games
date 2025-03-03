@@ -68,6 +68,70 @@ const suitMap: {
   },
 };
 
+function ArrowSvg(props: React.ComponentProps<"svg">) {
+  return (
+    <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
+      <path
+        d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
+        className="fill-black"
+      />
+      <path
+        d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
+        className="fill-gray-200"
+      />
+    </svg>
+  );
+}
+
+const currentTurnArrow = (
+  <div className="ml-1 -scale-x-75 scale-y-150 text-xl text-white">
+    &#10148;
+  </div>
+);
+
+const Explainer = () => {
+  // base-ui popover displaying "how to play"
+  return (
+    <Popover.Root>
+      <Popover.Trigger className="mr-5">
+        <Help
+          fontSize="large"
+          sx={{
+            "&:hover": { color: grey[200] },
+            color: "white",
+            fontSize: 40,
+          }}
+        />
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Backdrop />
+        <Popover.Positioner side="left">
+          <Popover.Popup className="h-160 mr-3 mt-9 w-64 border border-white bg-black bg-opacity-80 p-3 text-white md:h-80 md:w-96">
+            <Popover.Arrow className="-right-[.10rem] rotate-90">
+              <ArrowSvg />
+            </Popover.Arrow>
+            <Popover.Title className="text-2xl font-bold">
+              How To Play
+            </Popover.Title>
+            <Popover.Description className="mt-4">
+              Players alternate turns replacing a card in the grid with their
+              mark. On their turn, players must choose a card which matches
+              either the suit or the value of the card last chosen by their
+              opponent (on the first turn, any card can be chosen).
+              <br className="m-3 block content-['']" />
+              The first player to place four of their marks in a line
+              (horizontally, vertically, or diagonally) or in a square, is the
+              winner. Alternatively, a player loses if there are no legal moves
+              on their turn.
+            </Popover.Description>
+            <Popover.Close />
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+};
+
 const SettoBoard = (props: BoardProps) => {
   const { G, ctx, moves } = props;
   const searchParams = useSearchParams();
@@ -86,71 +150,14 @@ const SettoBoard = (props: BoardProps) => {
 
   const onClick = (id: string) => moves.clickGridPos(id);
 
-  function ArrowSvg(props: React.ComponentProps<"svg">) {
-    return (
-      <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
-        <path
-          d="M9.66437 2.60207L4.80758 6.97318C4.07308 7.63423 3.11989 8 2.13172 8H0V10H20V8H18.5349C17.5468 8 16.5936 7.63423 15.8591 6.97318L11.0023 2.60207C10.622 2.2598 10.0447 2.25979 9.66437 2.60207Z"
-          className="fill-black"
-        />
-        <path
-          d="M10.3333 3.34539L5.47654 7.71648C4.55842 8.54279 3.36693 9 2.13172 9H0V8H2.13172C3.11989 8 4.07308 7.63423 4.80758 6.97318L9.66437 2.60207C10.0447 2.25979 10.622 2.2598 11.0023 2.60207L15.8591 6.97318C16.5936 7.63423 17.5468 8 18.5349 8H20V9H18.5349C17.2998 9 16.1083 8.54278 15.1901 7.71648L10.3333 3.34539Z"
-          className="fill-gray-200"
-        />
-      </svg>
-    );
-  }
-
-  const renderExplainer = () => {
-    return (
-      <Popover.Root>
-        <Popover.Trigger className="mr-5">
-          <Help
-            fontSize="large"
-            sx={{
-              "&:hover": { color: grey[200] },
-              color: "white",
-              fontSize: 40,
-            }}
-          />
-        </Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Backdrop />
-          <Popover.Positioner side="left">
-            <Popover.Popup className="h-160 mr-3 mt-9 w-64 border border-white bg-black bg-opacity-80 p-3 text-white md:h-80 md:w-96">
-              <Popover.Arrow className="-right-[.10rem] rotate-90">
-                <ArrowSvg />
-              </Popover.Arrow>
-              <Popover.Title className="text-2xl font-bold">
-                How To Play
-              </Popover.Title>
-              <Popover.Description className="mt-4">
-                Players alternate turns replacing a card in the grid with their
-                mark. On their turn, players must choose a card which matches
-                either the suit or the value of the card last chosen by their
-                opponent (on the first turn, any card can be chosen).
-                <br className="m-3 block content-['']" />
-                The first player to place four of their marks in a line
-                (horizontally, vertically, or diagonally) or in a square, is the
-                winner. Alternatively, a player loses if there are no legal
-                moves on their turn.
-              </Popover.Description>
-              <Popover.Close />
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
-      </Popover.Root>
-    );
-  };
-
-  const renderWinner = () => {
+  const renderWinnerText = () => {
     if (!ctx.gameover) return null;
 
     return (
       <div className="ml-1 p-1 text-[30px] text-white" id="winner">
-        {ctx.gameover.winner === playerID
-          ? userName + " wins!"
-          : searchParams.get("opponentName") + " wins!"}
+        {(ctx.gameover.winner === playerID
+          ? userName
+          : searchParams.get("opponentName")) + " wins!"}
       </div>
     );
   };
@@ -233,12 +240,6 @@ const SettoBoard = (props: BoardProps) => {
     return grid;
   };
 
-  const currentTurnArrow = (
-    <div className="ml-1 -scale-x-75 scale-y-150 text-xl text-white">
-      &#10148;
-    </div>
-  );
-
   const renderPlayerCard = (
     playerID: string,
     playerName: string,
@@ -269,7 +270,7 @@ const SettoBoard = (props: BoardProps) => {
           </div>
         </div>
         {ctx.currentPlayer === playerID ? currentTurnArrow : null}
-        {ctx.gameover?.winner === playerID ? renderWinner() : null}
+        {ctx.gameover?.winner === playerID ? renderWinnerText() : null}
       </div>
     );
   };
@@ -285,7 +286,7 @@ const SettoBoard = (props: BoardProps) => {
             searchParams.get("opponentIcon")?.replaceAll(" ", "+"),
           )}
         </div>
-        {renderExplainer()}
+        <Explainer />
       </div>
       <table id="board" className="mb-8">
         <tbody>{renderGrid()}</tbody>
