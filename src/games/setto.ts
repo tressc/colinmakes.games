@@ -1,15 +1,15 @@
 import type { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
-export interface SetMemberships {
+interface SetMemberships {
   [key: number]: number[];
 }
 
-export interface Connections {
+interface Connections {
   [key: string]: number[];
 }
 
-export interface MyGameState {
+interface MyGameState {
   previousCard: string | null; // the previous card that was played
   sets: number[]; // one set is required for victory
   grid: string[]; // 2D array of cards

@@ -21,9 +21,7 @@ const dicierDark = localFont({
   display: "swap",
 });
 
-export type Card = string | null;
-
-export interface Mapping {
+interface Mapping {
   suitCode: string;
   fontColor: string;
   bgColor: string;
@@ -31,13 +29,11 @@ export interface Mapping {
   border: string;
 }
 
-export interface SuitMap {
+interface SuitMap {
   [key: string]: Mapping;
 }
 
-const suitMap: {
-  [key: string]: Mapping;
-} = {
+const suitMap: SuitMap = {
   a: {
     suitCode: "SPRING",
     fontColor: "text-[#006400]",

@@ -1,7 +1,7 @@
 import type { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
-export interface MyGameState {
+interface MyGameState {
   cells: string[];
 }
 
