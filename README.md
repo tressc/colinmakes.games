@@ -2,6 +2,8 @@
 
 [colinmakes.games](https://www.colinmakes.games) is a web based multiplayer card & board game platform. Users can create or join matches and play against other users in real time. My intention is for this application to act as a platform for play-testing and showcasing my original game designs. Currently there is one game, **Setto**, available to play, the rules of which can be found below.
 
+![](./public/gif/demo.gif)
+
 ## How to play Setto
 
 Players alternate turns replacing a card in the grid with their mark. On their turn, players must choose a card which matches either the suit or the value of the card last chosen by their opponent (on the first turn, any card can be chosen).
