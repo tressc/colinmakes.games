@@ -54,6 +54,10 @@ This project leverages the [boardgame.io](https://boardgame.io/) library to defi
 
 The `src/games` directory contains files which define game behavior, such as legal moves, endgame conditions, and state.
 
+- For example `setto.ts` defines an object `setMemberships` which maps each grid cell to all the scoring opportunities it is a member of. An opportunity in this context is any row, column, diagonal, or square of 4 cells. These are are tracked in an integer array `sets` where each index is assigned to a single opportunity. When a player claims a cell, every opportunity is de/incremeted by 1. If the absolute value of an opportunity is ever 4, the game is over and the current player has won.
+
+- ![](./public/img/scoring.png)
+
 The `src/boards` directory determine how these games should be presented on the client.
 
 A [separate node server](https://github.com/tressc/asobi-server) hosts REST endpoints for lobby actions such as creating and joining matches, and [socket.io](https://socket.io/) connections for updating matches between multiple users in real time.
