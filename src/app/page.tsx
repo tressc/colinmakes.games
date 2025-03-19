@@ -4,11 +4,13 @@ import { useContext, useState, useEffect } from "react";
 import { redirect, useSearchParams } from "next/navigation";
 
 import { UserContext } from "@/contexts/userContext";
+import { LanguageContext } from "@/contexts/languageContext";
 import { v4 as uuidv4 } from "uuid";
 import Identicon from "identicon.js";
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
+  const { language, languageOptions } = useContext(LanguageContext);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -50,14 +52,18 @@ const App = () => {
           type="text"
           value={userName}
           onChange={(e) => setUsername(e.target.value)}
-          className="border-blac rounded-md border p-1"
-          placeholder="Enter your username"
+          className="min-w-4xl w-4xl rounded-md border border-black p-1"
+          placeholder={
+            language === languageOptions.english
+              ? "Enter your username"
+              : "ユーザーネームを入力してください"
+          }
         />
         <button
           type="submit"
           className="mt-4 rounded-md border border-black bg-white p-1 text-black hover:text-gray-500"
         >
-          enter
+          {language === languageOptions.english ? "enter" : "入る"}
         </button>
       </form>
     </div>

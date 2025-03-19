@@ -5,6 +5,7 @@ import type { BoardProps } from "boardgame.io/react";
 import localFont from "next/font/local";
 import { useSearchParams } from "next/navigation";
 import { UserContext } from "@/contexts/userContext";
+import { LanguageContext } from "@/contexts/languageContext";
 import Image from "next/image";
 import { Popover } from "@base-ui-components/react/popover";
 import Help from "@mui/icons-material/Help";
@@ -87,6 +88,7 @@ const currentTurnArrow = (
 
 const Explainer = () => {
   // base-ui popover displaying "how to play"
+  const { languageOptions, language } = useContext(LanguageContext);
   return (
     <Popover.Root>
       <Popover.Trigger className="mr-5">
@@ -107,18 +109,18 @@ const Explainer = () => {
               <ArrowSvg />
             </Popover.Arrow>
             <Popover.Title className="text-2xl font-bold">
-              How To Play
+              {language === languageOptions.english
+                ? "How To Play"
+                : "遊び方の説明書"}
             </Popover.Title>
             <Popover.Description className="mt-4">
-              Players alternate turns replacing a card in the grid with their
-              mark. On their turn, players must choose a card which matches
-              either the suit or the value of the card last chosen by their
-              opponent (on the first turn, any card can be chosen).
+              {language === languageOptions.english
+                ? "Players alternate turns replacing a card in the grid with their mark. On their turn, players must choose a card which matches either the suit or the value of the card last chosen by their opponent (on the first turn, any card can be chosen)."
+                : "プレーヤ達は順番に一枚の札を取って、その場所に自分のマーク（❌か⭕️）を置きます。相手が選んだ札の同じ色か数字の札を選ばなければいけません。最初のターンで、どの札も選べます。"}
               <br className="m-3 block content-['']" />
-              The first player to place four of their marks in a line
-              (horizontally, vertically, or diagonally) or in a square, is the
-              winner. Alternatively, a player loses if there are no legal moves
-              on their turn.
+              {language === languageOptions.english
+                ? "The first player to place four of their marks in a line (horizontally, vertically, or diagonally) or in a square, is the winner. Alternatively, a player loses if there are no legal moves on their turn."
+                : "勝者は列（平行、縦、斜め）か四角で四つのマークを置く遊びです。それか、もし選ぶことが出来る札がなければ、敗者になります。"}
             </Popover.Description>
             <Popover.Close />
           </Popover.Popup>

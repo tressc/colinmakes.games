@@ -4,10 +4,12 @@ import { useContext, useEffect, useMemo, useState, useCallback } from "react";
 import withProtectedRoute from "@/utils/withProtectedRoute";
 import { LobbyClient } from "boardgame.io/client";
 import { UserContext } from "@/contexts/userContext";
+import { LanguageContext } from "@/contexts/languageContext";
 import { redirect, useSearchParams } from "next/navigation";
 
 const Lobby = () => {
   const { user } = useContext(UserContext);
+  const { language, languageOptions } = useContext(LanguageContext);
   const searchParams = useSearchParams();
 
   const [playerCredentials, setPlayerCredentials] = useState<string | null>(
@@ -106,9 +108,17 @@ const Lobby = () => {
   const renderCreated = () => {
     return (
       <div className="flex flex-col items-center">
-        <div>Match created! Your join code is:</div>
+        <div>
+          {language === languageOptions.english
+            ? "Match created! Your join code is:"
+            : "作りました！参加コードは："}
+        </div>
         <div className="m-2 text-3xl">{matchID}</div>
-        <div>Send your friend the invite link below</div>
+        <div>
+          {language === languageOptions.english
+            ? "Send your friend the invite link below"
+            : "友達に下のリンクを送ってください"}
+        </div>
         <div className="align-center mt-4 flex items-center">
           <div className="mr-1 rounded-md border border-white bg-white bg-opacity-20 p-2 text-white">
             {inviteLink}
@@ -117,11 +127,13 @@ const Lobby = () => {
             onClick={copyInvite}
             className="rounded-md border border-black bg-white p-2 text-black"
           >
-            copy
+            {language === languageOptions.english ? "copy" : "コピー"}
           </button>
         </div>
         <div className="mt-4">
-          Waiting for opponent. Your match will begin once they join!
+          {language === languageOptions.english
+            ? "Waiting for opponent. Your match will begin once they join!"
+            : "相手を待っています。相手が参加するとゲームが開始します！"}
         </div>
       </div>
     );
@@ -133,30 +145,44 @@ const Lobby = () => {
         renderCreated()
       ) : (
         <div className="flex flex-col items-center">
-          <div className="mb-2 text-4xl">join existing game</div>
+          <div className="mb-2 text-4xl">
+            {language === languageOptions.english
+              ? "join existing game"
+              : "存在するゲームに参加"}
+          </div>
           <div className="flex items-center">
             <input
               className="rounded-md border border-black bg-white p-2 text-black"
-              placeholder="join code"
+              placeholder={
+                language === languageOptions.english
+                  ? "join code"
+                  : "参加コード"
+              }
               value={inputText || ""}
               onChange={(e) => setInputText(e.target.value)}
             />
             <button
               onClick={() => setMatchID(inputText)}
-              className="rounded-md border border-black bg-white p-2 text-black hover:text-gray-500"
+              className="rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
             >
-              join
+              {language === languageOptions.english ? "join" : "参加する"}
             </button>
           </div>
-          <div className="m-6 text-xl">or</div>
+          <div className="m-6 text-xl">
+            {language === languageOptions.english ? "or" : "か"}
+          </div>
 
-          <div className="mb-2 text-4xl">create new game</div>
+          <div className="mb-2 text-4xl">
+            {language === languageOptions.english
+              ? "create new game"
+              : "新しいゲームを作る"}
+          </div>
           <button
             onClick={createMatch}
-            className="rounded-md border border-black bg-white p-2 text-black hover:text-gray-500"
+            className="rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
             disabled={matchID !== null}
           >
-            create
+            {language === languageOptions.english ? "create" : "作る"}
           </button>
         </div>
       )}
