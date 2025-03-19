@@ -61,7 +61,7 @@ const App = () => {
         />
         <button
           type="submit"
-          className="mt-4 rounded-md border border-black bg-white p-1 text-black hover:text-gray-500"
+          className="mt-4 rounded-md border border-black bg-white p-1 text-black hover:text-blue-500"
         >
           {language === languageOptions.english ? "enter" : "入る"}
         </button>

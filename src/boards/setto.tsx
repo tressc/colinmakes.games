@@ -9,7 +9,7 @@ import { LanguageContext } from "@/contexts/languageContext";
 import Image from "next/image";
 import { Popover } from "@base-ui-components/react/popover";
 import Help from "@mui/icons-material/Help";
-import grey from "@mui/material/colors/grey";
+import blue from "@mui/material/colors/blue";
 
 const dicier = localFont({
   src: "../../public/fonts/Dicier-Round-Light.woff2",
@@ -95,7 +95,7 @@ const Explainer = () => {
         <Help
           fontSize="large"
           sx={{
-            "&:hover": { color: grey[200] },
+            "&:hover": { color: blue[200] },
             color: "white",
             fontSize: 40,
           }}
