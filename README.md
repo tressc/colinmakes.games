@@ -84,6 +84,7 @@ A [separate node server](https://github.com/tressc/asobi-server) hosts REST endp
 
 ## Credits
 
+- Japanese localization: Momo sensei
 - [Dicier Font](speakthesky.itch.io/typeface-dicier), Speak the Sky, [CC BY4.0 Licence](creativecommons.org/licenses/by/4.0/)
 - Images from [https://livinginjapan.net/](https://livinginjapan.net/)
 - Setto inspired by [Okiya](https://boardgamegeek.com/boardgame/125311/okiya)
