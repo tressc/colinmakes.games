@@ -52,7 +52,7 @@ const App = () => {
           type="text"
           value={userName}
           onChange={(e) => setUsername(e.target.value)}
-          className="min-w-4xl w-4xl rounded-md border border-black p-1"
+          className="w-[18rem] rounded-md border border-black p-1"
           placeholder={
             language === languageOptions.english
               ? "Enter your username"
@@ -61,7 +61,7 @@ const App = () => {
         />
         <button
           type="submit"
-          className="mt-4 rounded-md border border-black bg-white p-1 text-black hover:text-blue-500"
+          className="mt-4 w-[8rem] rounded-md border border-black bg-white p-1 text-black hover:text-blue-500"
         >
           {language === languageOptions.english ? "enter" : "入る"}
         </button>

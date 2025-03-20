@@ -125,7 +125,7 @@ const Lobby = () => {
           </div>
           <button
             onClick={copyInvite}
-            className="rounded-md border border-black bg-white p-2 text-black"
+            className="w-[8rem] rounded-md border border-black bg-white p-2 text-black"
           >
             {language === languageOptions.english ? "copy" : "コピー"}
           </button>
@@ -152,7 +152,7 @@ const Lobby = () => {
           </div>
           <div className="flex items-center">
             <input
-              className="rounded-md border border-black bg-white p-2 text-black"
+              className="w-[18rem] rounded-md border border-black bg-white p-2 text-black"
               placeholder={
                 language === languageOptions.english
                   ? "join code"
@@ -163,7 +163,7 @@ const Lobby = () => {
             />
             <button
               onClick={() => setMatchID(inputText)}
-              className="rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
+              className="w-[8rem] rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
             >
               {language === languageOptions.english ? "join" : "参加する"}
             </button>
@@ -179,7 +179,7 @@ const Lobby = () => {
           </div>
           <button
             onClick={createMatch}
-            className="rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
+            className="w-[8rem] rounded-md border border-black bg-white p-2 text-black hover:text-blue-500"
             disabled={matchID !== null}
           >
             {language === languageOptions.english ? "create" : "作る"}
